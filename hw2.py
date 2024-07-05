@@ -1,14 +1,13 @@
-import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from aiogram.types import  ReplyKeyboardMarkup, KeyboardButton , InputFile
+from aiogram.types import  ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import executor
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
-# from aiogram.contrib.fsm_storage.memory import MemoryStorage
-# from config import token
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from config import token
 
 GROUP_CHAT_ID = '-4269502098'
 
@@ -69,22 +68,6 @@ async def list_products(message: types.Message):
 async def order_product(message: types.Message):
     await OrderForm.waiting_for_article.set()
     await message.answer("Пожалуйста, введите артикул товара, который хотите заказать:")
-
-async def set_bot_avatar(photo_path):
-    # Открываем файл с фото
-    with open(photo_path, 'rb') as photo_file:
-        photo = InputFile(photo_file)
-        # Устанавливаем фото профиля
-        await bot.set_avatar(photo)
-
-async def main():
-    # Путь к вашему фото профилю (измените на свой путь)
-    photo_path = 'path/to/your/photo.jpg'
-    await set_bot_avatar(photo_path)
-
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
 
 @dp.message_handler(state=OrderForm.waiting_for_article)
 async def process_article(message: types.Message, state: FSMContext):

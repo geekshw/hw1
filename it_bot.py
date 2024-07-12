@@ -1,7 +1,7 @@
 from aiogram import Bot, Dispatcher, types, executor
 from logging import basicConfig, INFO
-# from config import token
-# import asyncio
+from config import token
+
 
 bot = Bot(token=token)
 dp = Dispatcher(bot)
